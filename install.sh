@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Step 1: Clone Project
-REPO_URL="<URL_REPOSITORI_ANDA>"
+REPO_URL="<https://github.com/irulgood/panel>"
 REPO_NAME=$(basename "$REPO_URL" .git)
 
 echo "Mengkloning proyek ke lokal ke folder $REPO_NAME..."
