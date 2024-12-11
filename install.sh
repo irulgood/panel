@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL file ZIP
-url="https://example.com/file.zip"
+url="https://github.com/irulgood/panel/blob/main/panel-main.zip"
 
 # Nama lokal untuk folder hasil ekstraksi
 local_name="panel"
