@@ -1,20 +1,48 @@
 #!/bin/bash
 
-# Step 1: Clone Project
-REPO_URL="<https://github.com/irulgood/panel>"
-REPO_NAME=$(basename "$REPO_URL" .git)
+# URL file ZIP
+url="https://example.com/file.zip"
 
-echo "Mengkloning proyek ke lokal ke folder $REPO_NAME..."
-git clone "$REPO_URL"
-cd "$REPO_NAME" || exit
+# Nama lokal untuk folder hasil ekstraksi
+local_name="panel"
 
-# Step 2: Install Dependencies
-echo "Menginstal ketergantungan menggunakan pip3..."
-pip3 install -r requirements.txt
+# Buat folder lokal jika belum ada
+if [ ! -d "$local_name" ]; then
+    echo "Folder '$local_name' belum ada. Membuat folder..."
+    mkdir -p "$local_name"
+else
+    echo "Folder '$local_name' sudah ada. Menggunakan folder yang sama."
+fi
 
-# Step 3: Run the Bot Automatically
-echo "Menjalankan bot..."
-python3 main.py
+# Unduh file ZIP
+echo "Mengunduh file dari $url..."
+wget -q "$url" -O temp.zip
 
-# Done
-echo "Bot telah dijalankan. Nikmati kemudahan pengelolaan Digital Ocean Anda dengan antarmuka yang ramah pengguna!"
+# Ekstrak file ZIP ke folder lokal
+echo "Mengekstrak file ke folder $local_name..."
+unzip -q temp.zip -d "$local_name"
+
+# Hapus file ZIP setelah ekstraksi
+echo "Menghapus file ZIP sementara..."
+rm temp.zip
+
+# Masuk ke folder hasil ekstraksi
+cd "$local_name" || exit
+
+# Cek apakah file requirements.txt ada
+if [ -f "requirements.txt" ]; then
+    echo "Menginstal dependensi dari requirements.txt..."
+    pip install -r requirements.txt
+else
+    echo "File requirements.txt tidak ditemukan, melewati instalasi dependensi."
+fi
+
+# Jalankan main.py jika ada
+if [ -f "main.py" ]; then
+    echo "Menjalankan main.py..."
+    python3 main.py
+else
+    echo "File main.py tidak ditemukan."
+fi
+
+echo "Proses selesai."
